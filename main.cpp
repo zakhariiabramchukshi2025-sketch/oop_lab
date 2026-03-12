@@ -66,6 +66,41 @@ private:
         "Exit"
     };
     
+    
+    
+    
+    
+ // --- functional for specific objects
+    vector<string> functional_tv_menu = {
+        "send signal",
+        "perform action",
+        "change chanell",
+        "change provider",
+        "META AND NAMEPLATE DATA ACCTIONS", // BETA!!! TODO: create actions
+        "identify",
+        "Exit"
+    };
+    
+    vector<string> functional_tv_menu = {
+        "send signal",
+        "perform action",
+        "META AND NAMEPLATE DATA ACCTIONS", // BETA!!! TODO: create actions
+        "identify",
+        "Exit"
+    };
+    
+    vector<string> functional_tv_menu = {
+        "send signal",
+        "perform action",
+        "set brightness",
+        "META AND NAMEPLATE DATA ACCTIONS", // BETA!!! TODO: create actions
+        "identify",
+        "Exit"
+    };
+    
+    
+    
+    
 
 public:
     explicit Program() = default;
@@ -120,7 +155,7 @@ void run_main(Program& app) {
 
             switch (userChoice) {
                 case '1':
-                    cout << "\n\n[System] Displaying device info...\n";
+                    cout << "\n\n[System] Displaying device info...\n"; // and
                     // app.show_info();
                     break;
                 case '2':

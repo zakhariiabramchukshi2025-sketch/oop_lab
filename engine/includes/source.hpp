@@ -40,13 +40,22 @@ public:
                      optional<string> getaway_ip = nullopt);
 
     // Getters
-    [[nodiscard]] const string& get_firmware_version() const noexcept { return firmware_version_; }
-    [[nodiscard]] int get_error_count() const noexcept { return error_count_; }
-    [[nodiscard]] bool get_is_online() const noexcept { return is_online_; }
-    [[nodiscard]] const optional<string>& get_network_alias() const noexcept { return network_alias_; }
-    [[nodiscard]] const optional<string>& get_ipv4_address() const noexcept { return ipv4_address_; }
-    [[nodiscard]] const optional<string>& get_ipv6_address() const noexcept { return ipv6_address_; }
-
+    [[nodiscard]] const string& get_firmware_version() const noexcept {return firmware_version_;}
+    
+    [[nodiscard]] int get_error_count() const noexcept {return error_count_;}
+    
+    [[nodiscard]] bool get_is_online() const noexcept {return is_online_;}
+    
+    [[nodiscard]] const optional<string>& get_network_alias() const noexcept {return network_alias_;}
+    
+    [[nodiscard]] const optional<string>& get_ipv4_address() const noexcept {return ipv4_address_;} // щоби ці сетери працювали коректно треба буде писати при запуску .value_or("anything else") бо може нічого не повернути блін(((
+    
+    [[nodiscard]] const optional<string>& get_ipv6_address() const noexcept {return ipv6_address_;}
+    
+    [[nodiscard]] const optional<string>& get_getawat_ip_address() const noexcept {return getaway_ip_;}
+    
+    
+    
     // Setters
     MetaData& set_firmware_version(string new_firmware_version) noexcept;
     MetaData& reset_error_count() noexcept;
@@ -74,14 +83,17 @@ private:
 
 public:
     NameplateData() = default;
+    
     explicit NameplateData(string manufacturer, int manufacture_year, string serial_number,
                           optional<string> country_of_origin = nullopt,
                           optional<string> model = nullopt);
 
     // Getters
-    [[nodiscard]] const string& get_manufacturer() const noexcept { return manufacturer_; }
-    [[nodiscard]] int get_manufacture_year() const noexcept { return manufacture_year_; }
-    [[nodiscard]] const string& get_serial_number() const noexcept { return serial_number_; }
+    [[nodiscard]] const string& get_manufacturer() const noexcept {return manufacturer_;}
+    [[nodiscard]] int get_manufacture_year() const noexcept {return manufacture_year_;}
+    [[nodiscard]] const string& get_serial_number() const noexcept {return serial_number_;}
+    [[nodiscard]] const optional<string>& get_country_of_origin() const noexcept {return country_of_origin_;}
+    [[nodiscard]] const optional<string>& get_model() const noexcept {return model_;}
 
     // Setters
     NameplateData& set_manufacturer(string new_manufacturer) noexcept;
@@ -94,6 +106,9 @@ public:
     void nameplate_configuration();
 };
 
+
+
+
 // --- Interfaces ---
 class IRemote {
 protected:
@@ -104,6 +119,10 @@ public:
     virtual bool is_remote_active() const { return is_remote_enabled_; }
     virtual void send_signal() const = 0;
 };
+
+
+
+
 
 // --- Base Device Class ---
 class Device {
@@ -119,6 +138,7 @@ public:
 
     [[nodiscard]] MetaData& meta() noexcept { return meta_; }
     [[nodiscard]] NameplateData& nameplate() noexcept { return nameplate_; }
+    
     [[nodiscard]] const string& get_nickname() const noexcept { return nickname_; }
 
     void config_meta();
@@ -127,6 +147,13 @@ public:
     virtual void perform_action() = 0;
 };
 
+
+
+
+
+
+
+
 // --- Concrete Devices ---
 class SmartTV : public Device, public IRemote {
 private:
@@ -134,30 +161,43 @@ private:
     string provider_{"Kyivstar"};
 public:
     using Device::Device;
+    
     void perform_action() override;
     void send_signal() const override;
     void change_channel(const int new_channel);
     void change_provider(const string new_provider);
     void identify() const override;
+    
+    
 };
+
 
 class SmartLock : public Device, public IRemote {
 private:
     bool locked_{true};
 public:
     using Device::Device;
+    
     void perform_action() override;
     void send_signal() const override;
     void identify() const override;
+    
+    
+    
 };
+
+
 
 class SmartLights : public Device, public IRemote {
 private:
     int brightness_{100};
 public:
     using Device::Device;
+    
     void perform_action() override;
     void send_signal() const override;
     void set_brightness(const int new_brightness) noexcept;
     void identify() const override;
+    
+    
 };
