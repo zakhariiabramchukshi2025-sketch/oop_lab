@@ -30,7 +30,7 @@ bool MetaData::is_valid_error_count(int number_of_errors) noexcept {
 bool MetaData::is_valid_ipv4(const string& ipv4) noexcept {
     if (ipv4.empty()) return false;
     struct sockaddr_in sa;
-    return inet_pton(AF_INET, ipv4.c_str(), &(sa.sin_addr)) == 1;
+    return inet_pton(AF_INET, ipv4.c_str(),         &(sa.sin_addr)) == 1;
 }
 
 bool MetaData::is_valid_ipv6(const string& ipv6) noexcept {
@@ -262,7 +262,7 @@ NameplateData::NameplateData(string man, int year, string sn, optional<string> c
 
 // ~~~~~~ validation
 
-[[nodiscard]] static bool NameplateData::is_valid_manufacture_year(int manufacture_year) noexcept {
+[[nodiscard]] bool NameplateData::is_valid_manufacture_year(int manufacture_year) noexcept { // static can only be specified in hpp file
     return manufacture_year >= 1900 && manufacture_year <= 2100; // program will be outdated till 2100
 }
 
@@ -324,7 +324,7 @@ NameplateData& NameplateData::set_model(optional<string> new_model) noexcept {
 
 // ~~~~~~ methods
 
-void NamePlate::nameplate_info() const noexcept {
+void NameplateData::nameplate_info() const noexcept {
     cout << "Nameplate Info:\n";
     cout << "Manufacturer: " << manufacturer_ << "; \n"
      << "Model: " << model_.value_or("Unknown;") << "\n"
@@ -334,7 +334,7 @@ void NamePlate::nameplate_info() const noexcept {
 
 
 
-void NamePlate::nameplate_configuration() {
+void NameplateData::nameplate_configuration() {
     string buffer_s;
     int buffer_i;
     char choice;
@@ -398,7 +398,7 @@ void NamePlate::nameplate_configuration() {
 Device::Device(string nickname, MetaData meta, NameplateData nameplate)
 : nickname_(move(nickname)), meta_(move(meta)), nameplate_(move(nameplate)) {}
 
-explicit Device::Device(string nickname)
+Device::Device(string nickname)
 : Device(std::move(nickname), MetaData(), NameplateData()) {} // USER SKIPPING CONFIGURATION
 
 void Device::identify() const {
@@ -423,11 +423,11 @@ void Device::config_nameplate() { nameplate().nameplate_configuration(); }
 
 // --- SmartTV
 
-void SmartTV::perform_action() override {
+void SmartTV::perform_action()   {
     cout << "[TV] Displaying content on channel " << current_channel_ << "\n";
 }
 
-void SmartTV::send_signal() const override {
+void SmartTV::send_signal() const   {
     if (is_remote_enabled_) cout << "[TV Remote] Signal received! \n";
     else  cout << "[TV Remote] No Signal!\n";
 }
@@ -449,14 +449,14 @@ void SmartTV::change_provider(const string new_provider) {
 }
 
 
-void SmartTV::identify() const override {
+void SmartTV::identify() const   {
     cout << "~~~~~~~~~ Device: " << nickname_ << " | Type: TV ~~~~~~~~~" ;
     cout << "current_chanel_: " << current_channel_ << ";\n";
     cout << "Provider: " << provider_ << ";\n";
     
     // and the rest does here:
-    nameplate_.nameplate_info()
-    meta_.meta_info()
+    nameplate_.nameplate_info();
+    meta_.meta_info();
 }
 
 
@@ -464,17 +464,17 @@ void SmartTV::identify() const override {
 
 // --- SmartLock
 
-void SmartLock::perform_action() override {
+void SmartLock::perform_action()   {
     locked_ = !locked_;
     cout << "[Lock] State changed to: " << (locked_ ? "LOCKED;" : "OPEN;") << "\n";
 }
 
-void SmartLock::send_signal() const override {
+void SmartLock::send_signal() const   {
     if (is_remote_enabled_) cout << "[Lock Remote] Signal received! \n";
     else cout << "[Lock Remote] No Signal!\n";
 }
 
-void SmartLock::identify() const override {
+void SmartLock::identify() const   {
     cout << "~~~~~~~~~ Device: " << nickname_ << " | Type: Smart Lock ~~~~~~~~~" ;
     cout << "Current state: " << (locked_ ? "LOCKED" : "OPEN") << ";\n";
     
@@ -489,12 +489,12 @@ void SmartLock::identify() const override {
 
 // --- SmartLights
 
-void SmartLights::send_signal() const override {
+void SmartLights::send_signal() const   {
     if (is_remote_enabled_) cout << "[Lights] Signal received! \n";
     else cout << "[Lights] No Signal!\n";
 }
 
-void SmartLights::perform_action() override {
+void SmartLights::perform_action()   {
     brightness_ += 10;
     brightness_ = brightness_ % 100;
     cout << "[Lights] Now: " << brightness_ << "% brightness!\n";
@@ -508,7 +508,7 @@ void SmartLights::set_brightness(const int new_brightness) noexcept {
 }
 
 
-void SmartLights::identify() const override {
+void SmartLights::identify() const   {
     cout << "~~~~~~~~~ Device: " << nickname_ << " | Type: Smart Lights ~~~~~~~~~" ;
     cout << "Brightness: " << brightness_  << "%";
     

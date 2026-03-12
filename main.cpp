@@ -81,7 +81,7 @@ private:
         "Exit"
     };
     
-    vector<string> functional_tv_menu = {
+    vector<string> functional_lock_menu = {
         "send signal",
         "perform action",
         "META AND NAMEPLATE DATA ACCTIONS", // BETA!!! TODO: create actions
@@ -89,7 +89,7 @@ private:
         "Exit"
     };
     
-    vector<string> functional_tv_menu = {
+    vector<string> functional_lights_menu = {
         "send signal",
         "perform action",
         "set brightness",

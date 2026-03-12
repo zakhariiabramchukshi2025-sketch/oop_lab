@@ -39,20 +39,20 @@ public:
                      optional<string> ipv6_address = nullopt,
                      optional<string> getaway_ip = nullopt);
 
-    // Getters
-    [[nodiscard]] const string& get_firmware_version() const noexcept {return firmware_version_;}
-    
-    [[nodiscard]] int get_error_count() const noexcept {return error_count_;}
-    
-    [[nodiscard]] bool get_is_online() const noexcept {return is_online_;}
-    
-    [[nodiscard]] const optional<string>& get_network_alias() const noexcept {return network_alias_;}
-    
-    [[nodiscard]] const optional<string>& get_ipv4_address() const noexcept {return ipv4_address_;} // щоби ці сетери працювали коректно треба буде писати при запуску .value_or("anything else") бо може нічого не повернути блін(((
-    
-    [[nodiscard]] const optional<string>& get_ipv6_address() const noexcept {return ipv6_address_;}
-    
-    [[nodiscard]] const optional<string>& get_getawat_ip_address() const noexcept {return getaway_ip_;}
+//     Getters
+    [[nodiscard]] const string& get_firmware_version() const noexcept;
+
+    [[nodiscard]] int get_error_count() const noexcept;
+
+    [[nodiscard]] bool get_is_online() const noexcept;
+
+    [[nodiscard]] const optional<string>& get_network_alias() const noexcept;
+
+    [[nodiscard]] const optional<string>& get_ipv4_address() const noexcept;
+
+    [[nodiscard]] const optional<string>& get_ipv6_address() const noexcept;
+
+    [[nodiscard]] const optional<string>& get_getawat_ip_address() const noexcept;
     
     
     
@@ -89,11 +89,11 @@ public:
                           optional<string> model = nullopt);
 
     // Getters
-    [[nodiscard]] const string& get_manufacturer() const noexcept {return manufacturer_;}
-    [[nodiscard]] int get_manufacture_year() const noexcept {return manufacture_year_;}
-    [[nodiscard]] const string& get_serial_number() const noexcept {return serial_number_;}
-    [[nodiscard]] const optional<string>& get_country_of_origin() const noexcept {return country_of_origin_;}
-    [[nodiscard]] const optional<string>& get_model() const noexcept {return model_;}
+    [[nodiscard]] const string& get_manufacturer() const noexcept;
+    [[nodiscard]] int get_manufacture_year() const noexcept;
+    [[nodiscard]] const string& get_serial_number() const noexcept;
+    [[nodiscard]] const optional<string>& get_country_of_origin() const noexcept;
+    [[nodiscard]] const optional<string>& get_model() const noexcept;
 
     // Setters
     NameplateData& set_manufacturer(string new_manufacturer) noexcept;
