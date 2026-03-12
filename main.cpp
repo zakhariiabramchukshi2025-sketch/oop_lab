@@ -114,7 +114,7 @@ public:
         for (auto punkt : start_menu_) {
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
             if (i == length) cout << "e. " << punkt << ";\n";
-            else cout << ++i << ". " << punkt << ";\n";
+            else cout << ui::ITALIC << ui::BOLD << ui::GREEN << ++i <<  ". " << ui::RESET << punkt << ";\n";
         }
         cout << "\n";
     }
@@ -125,7 +125,7 @@ public:
         for (auto punkt : сonfig_menu_) {
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
             if (i == length) cout << "e. " << punkt << ";\n";
-            else cout << ++i << ". " << punkt << ";\n";
+            else cout << ui::ITALIC << ui::GREEN << ++i <<  ". " << ui::RESET << punkt << ";\n";
         }
         cout << "\n";
     }
@@ -138,6 +138,10 @@ void run_info(Program& app) {
 //                                               ..... HOP ON HERE .....
 }
 
+void run_config(Program& app) {
+    app.config_menu_layout();
+//                                               ..... HOP ON HERE .....
+}
 
 
 
@@ -154,28 +158,31 @@ void run_info(Program& app) {
 
 void run_main(Program& app) {
     char userChoice = 's';
-        
+    
+//    ui::intro(); // beta
+    
+    
         while (userChoice != 'e' && userChoice != 'E') {
             app.start_menu_layout();
             cin >> userChoice;
 
             switch (userChoice) {
                 case '1':
-                    cout << ui::BLINK << "\n\n[System] Displaying device info...\n" << ui::RESET; // and
+                    cout << "\n\n" << ui::BG_BLACK << ui::GREEN << ui::BOLD << ui::ITALIC << "[System] Displaying device menu..." << ui::RESET << "\n\n"; // and
                     // app.show_info();
                     break;
                 case '2':
-                    cout << "\n\n[System] Entering functional mode...\n";
+                    cout << "\n\n" << ui::BG_BLACK << ui::GREEN << ui::BOLD << ui::ITALIC << "[System] Displaying functional menu..." << ui::RESET << "\n\n"; // and
                     break;
                 case '3':
-                    app.config_menu_layout();
+                    run_config(app);
                     // Nested loop or logic for config could go here
                     break;
                 case '4':
-                    cout << "\n\n[System] Creating new device...\n";
+                    cout << "\n\n" << ui::BG_BLACK << ui::GREEN << ui::BOLD << ui::ITALIC << "[System] Displaying creating options..." << ui::RESET << "\n\n"; // and
                     break;
                 case '5':
-                    cout << "\n\n[System] Deleting device...\n";
+                    cout << "\n\n" << ui::BG_BLACK << ui::GREEN << ui::BOLD << ui::ITALIC << "[System] Displaying deleting options..." << ui::RESET << "\n\n"; // and
                     break;
                 case '6':
                 case 'e':
