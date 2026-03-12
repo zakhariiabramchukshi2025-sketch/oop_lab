@@ -14,6 +14,7 @@
 
 
 #include "./engine/classes/includes/source.hpp"
+#include "./engine/system_requirements/includes/namespaces.hpp"
 
 
 
@@ -160,7 +161,7 @@ void run_main(Program& app) {
 
             switch (userChoice) {
                 case '1':
-                    cout << "\n\n[System] Displaying device info...\n"; // and
+                    cout << ui::BLINK << "\n\n[System] Displaying device info...\n" << ui::RESET; // and
                     // app.show_info();
                     break;
                 case '2':
