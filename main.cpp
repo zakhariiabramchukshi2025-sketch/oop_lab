@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include <thread>
 #include <arpa/inet.h>
 #include <iomanip>
 #include <limits>
@@ -38,7 +39,6 @@ using std::exception;
 
 class Program {
 private:
-    
     vector<unique_ptr<Device>> devices;
     
     vector<string> classes_list = { // list for object types
@@ -47,8 +47,6 @@ private:
         "SmartLock",
         "SmartLights"
     };
-    
-    
     
     
     vector<string> start_menu_ = {
@@ -78,6 +76,7 @@ public:
         int i = 0;
         size_t length = start_menu_.size();
         for (auto punkt : start_menu_) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
             if (i == length) cout << "e. " << punkt << ";\n";
             else cout << ++i << ". " << punkt << ";\n";
         }
@@ -88,6 +87,7 @@ public:
         int i = 0;
         size_t length = сonfig_menu_.size();
         for (auto punkt : сonfig_menu_) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
             if (i == length) cout << "e. " << punkt << ";\n";
             else cout << ++i << ". " << punkt << ";\n";
         }
@@ -120,21 +120,21 @@ void run_main(Program& app) {
 
             switch (userChoice) {
                 case '1':
-                    cout << "[System] Displaying device info...\n";
+                    cout << "\n\n[System] Displaying device info...\n";
                     // app.show_info();
                     break;
                 case '2':
-                    cout << "[System] Entering functional mode...\n";
+                    cout << "\n\n[System] Entering functional mode...\n";
                     break;
                 case '3':
                     app.config_menu_layout();
                     // Nested loop or logic for config could go here
                     break;
                 case '4':
-                    cout << "[System] Creating new device...\n";
+                    cout << "\n\n[System] Creating new device...\n";
                     break;
                 case '5':
-                    cout << "[System] Deleting device...\n";
+                    cout << "\n\n[System] Deleting device...\n";
                     break;
                 case '6':
                 case 'e':
