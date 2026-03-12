@@ -13,7 +13,7 @@
 
 
 
-#include "./engine/includes/source.hpp"
+#include "./engine/classes/includes/source.hpp"
 
 
 
@@ -132,9 +132,14 @@ public:
 };
 
 
-//void run_info(Program& app) {
-//
-//}
+void run_info(Program& app) {
+    cout << "Device info section: ";
+//                                               ..... HOP ON HERE .....
+}
+
+
+
+
 //
 //void run_functional(Program& app) {
 //
