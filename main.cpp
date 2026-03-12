@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include <thread>
 #include <arpa/inet.h>
 #include <iomanip>
 #include <limits>
@@ -12,7 +13,8 @@
 
 
 
-#include "./engine/includes/source.hpp"
+#include "./engine/classes/includes/source.hpp"
+#include "./engine/system_requirements/includes/namespaces.hpp"
 
 
 
@@ -38,7 +40,6 @@ using std::exception;
 
 class Program {
 private:
-    
     vector<unique_ptr<Device>> devices;
     
     vector<string> classes_list = { // list for object types
@@ -47,8 +48,6 @@ private:
         "SmartLock",
         "SmartLights"
     };
-    
-    
     
     
     vector<string> start_menu_ = {
@@ -68,6 +67,41 @@ private:
         "Exit"
     };
     
+    
+    
+    
+    
+ // --- functional for specific objects
+    vector<string> functional_tv_menu = {
+        "send signal",
+        "perform action",
+        "change chanell",
+        "change provider",
+        "META AND NAMEPLATE DATA ACCTIONS", // BETA!!! TODO: create actions
+        "identify",
+        "Exit"
+    };
+    
+    vector<string> functional_lock_menu = {
+        "send signal",
+        "perform action",
+        "META AND NAMEPLATE DATA ACCTIONS", // BETA!!! TODO: create actions
+        "identify",
+        "Exit"
+    };
+    
+    vector<string> functional_lights_menu = {
+        "send signal",
+        "perform action",
+        "set brightness",
+        "META AND NAMEPLATE DATA ACCTIONS", // BETA!!! TODO: create actions
+        "identify",
+        "Exit"
+    };
+    
+    
+    
+    
 
 public:
     explicit Program() = default;
@@ -78,6 +112,7 @@ public:
         int i = 0;
         size_t length = start_menu_.size();
         for (auto punkt : start_menu_) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
             if (i == length) cout << "e. " << punkt << ";\n";
             else cout << ++i << ". " << punkt << ";\n";
         }
@@ -88,6 +123,7 @@ public:
         int i = 0;
         size_t length = сonfig_menu_.size();
         for (auto punkt : сonfig_menu_) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
             if (i == length) cout << "e. " << punkt << ";\n";
             else cout << ++i << ". " << punkt << ";\n";
         }
@@ -97,9 +133,14 @@ public:
 };
 
 
-//void run_info(Program& app) {
-//
-//}
+void run_info(Program& app) {
+    cout << "Device info section: ";
+//                                               ..... HOP ON HERE .....
+}
+
+
+
+
 //
 //void run_functional(Program& app) {
 //
@@ -120,21 +161,21 @@ void run_main(Program& app) {
 
             switch (userChoice) {
                 case '1':
-                    cout << "[System] Displaying device info...\n";
+                    cout << ui::BLINK << "\n\n[System] Displaying device info...\n" << ui::RESET; // and
                     // app.show_info();
                     break;
                 case '2':
-                    cout << "[System] Entering functional mode...\n";
+                    cout << "\n\n[System] Entering functional mode...\n";
                     break;
                 case '3':
                     app.config_menu_layout();
                     // Nested loop or logic for config could go here
                     break;
                 case '4':
-                    cout << "[System] Creating new device...\n";
+                    cout << "\n\n[System] Creating new device...\n";
                     break;
                 case '5':
-                    cout << "[System] Deleting device...\n";
+                    cout << "\n\n[System] Deleting device...\n";
                     break;
                 case '6':
                 case 'e':

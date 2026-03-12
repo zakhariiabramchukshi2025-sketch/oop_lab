@@ -66,6 +66,9 @@ class MetaData {
     
     
 public:
+    
+    MetaData() = default;
+    
     explicit MetaData(string firmware_version, int error_count, bool is_online, optional<string> network_alias = nullopt, optional<string> ipv4_address = nullopt, optional<string> ipv6_address = nullopt, optional<string> getaway_ip = nullopt)
     : firmware_version_(move(firmware_version)),
     error_count_(error_count),
@@ -75,7 +78,7 @@ public:
     ipv6_address_(move(ipv6_address)),
     getaway_ip_(move(getaway_ip)) {}
     
-    MetaData() = default;
+    
     
     
 
@@ -307,6 +310,9 @@ public:
 
     // ~~~~~~ constructors
     
+    
+    NameplateData() = default;
+    
     explicit NameplateData(string manufacturer, int manufacture_year, string serial_number, optional<string> country_of_origin = nullopt, optional<string> model = nullopt)
     : manufacturer_(move(manufacturer)),
     manufacture_year_(manufacture_year),
@@ -314,10 +320,10 @@ public:
     country_of_origin_(move(country_of_origin)),
     model_(move(model)) {}
 
-    NameplateData() = default;
+    
     
 
-    // ~~~~~~~~~~ gettersa
+    // ~~~~~~~~~~ getters
     
     [[nodiscard]] const string& get_manufacturer() const noexcept {return manufacturer_;}
     
@@ -475,15 +481,9 @@ public:
 
     virtual ~Device() = default;
 
-        
-    
-    
-    
     
     [[nodiscard]] MetaData& meta() noexcept { return meta_; }
     [[nodiscard]] NameplateData& nameplate() noexcept { return nameplate_; }
-    
-    
     
     
     void config_meta() {
@@ -508,7 +508,7 @@ public:
 
 
 
-// ?-Children my children, where chould i left you...
+// ?-Children my children, where should i left you...
 
 // TV використовує Множинне наслідування
 
