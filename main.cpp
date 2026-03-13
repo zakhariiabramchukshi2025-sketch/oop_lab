@@ -12,9 +12,17 @@
 #include <memory>
 
 
+#include <termios.h>
+#include <unistd.h>
+
+#include <sys/utsname.h> // get devices info
+#include <sys/sysctl.h>
+
+
 
 #include "./engine/classes/includes/source.hpp"
 #include "./engine/system_requirements/includes/namespaces.hpp"
+#include "./engine/system_requirements/includes/input_config.hpp"
 
 
 
@@ -27,7 +35,7 @@ using std::optional;
 using std::move;
 using std::nullopt;
 using std::unique_ptr;
-
+using std::flush;
 
 using std::left;
 using std::setw;
@@ -40,9 +48,9 @@ using std::exception;
 
 class Program {
 private:
-    vector<unique_ptr<Device>> devices;
+    vector<unique_ptr<Device>> devices_;
     
-    vector<string> classes_list = { // list for object types
+    vector<string> classes_list_ = { // list for object types
         "Device",
         "SmartTV",
         "SmartLock",
@@ -72,7 +80,7 @@ private:
     
     
  // --- functional for specific objects
-    vector<string> functional_tv_menu = {
+    vector<string> functional_tv_menu_ = {
         "send signal",
         "perform action",
         "change chanell",
@@ -82,7 +90,7 @@ private:
         "Exit"
     };
     
-    vector<string> functional_lock_menu = {
+    vector<string> functional_lock_menu_ = {
         "send signal",
         "perform action",
         "META AND NAMEPLATE DATA ACCTIONS", // BETA!!! TODO: create actions
@@ -90,7 +98,7 @@ private:
         "Exit"
     };
     
-    vector<string> functional_lights_menu = {
+    vector<string> functional_lights_menu_ = {
         "send signal",
         "perform action",
         "set brightness",
@@ -105,6 +113,18 @@ private:
 
 public:
     explicit Program() = default;
+//    explicit Program() = default;  // TODO: admin constructor
+    
+    
+    
+    
+    [[nodiscard]] string read_input(string menuType) const {
+        if (menuType == "config") { return read_line(сonfig_menu_); }
+        else if (menuType == "tv") { return read_line(functional_tv_menu_); }
+        else if (menuType == "lock") { return read_line(functional_lock_menu_); }
+        else if (menuType == "lights") { return read_line(functional_lights_menu_); }
+        else {return "Text";} // TODO: get rid of this
+    }
     
     
     
@@ -113,18 +133,27 @@ public:
         size_t length = start_menu_.size();
         for (auto punkt : start_menu_) {
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
-            if (i == length) cout << "e. " << punkt << ";\n";
+            if (i == length - 1) cout << ui::DIM << ui::ITALIC << ui::BOLD << ui::RED << "e. " << punkt << ui::RESET << ";\n";
             else cout << ui::ITALIC << ui::BOLD << ui::GREEN << ++i <<  ". " << ui::RESET << punkt << ";\n";
         }
         cout << "\n";
     }
     
-    void config_menu_layout() {
+    void menu_layout(string menuType) const {
         int i = 0;
-        size_t length = сonfig_menu_.size();
-        for (auto punkt : сonfig_menu_) {
+        vector<string> menuToPrint;
+        
+        if (menuType == "config") { menuToPrint = сonfig_menu_; }
+        else if (menuType == "tv") { menuToPrint = functional_tv_menu_; }
+        else if (menuType == "lock") { menuToPrint = functional_lock_menu_; }
+        else if (menuType == "lights") { menuToPrint = functional_lights_menu_; }
+        else {return;}
+        
+        
+        size_t length = menuToPrint.size();
+        for (auto punkt : menuToPrint) {
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
-            if (i == length) cout << "e. " << punkt << ";\n";
+            if (i == length - 1) cout << ui::DIM << ui::ITALIC << ui::BOLD << ui::RED << "e. " << punkt << ui::RESET << ";\n";
             else cout << ui::ITALIC << ui::GREEN << ++i <<  ". " << ui::RESET << punkt << ";\n";
         }
         cout << "\n";
@@ -134,12 +163,19 @@ public:
 
 
 void run_info(Program& app) {
-    cout << "Device info section: ";
+    cout << "\nDevice info section: " << flush;
 //                                               ..... HOP ON HERE .....
 }
 
 void run_config(Program& app) {
-    app.config_menu_layout();
+    app.menu_layout("config");
+    string userChoice;
+    while (userChoice[0] != 'e' && userChoice != "exitProtocol") {
+        userChoice = app.read_input("config");
+//        run_info(app);
+        cout << userChoice << flush;
+//        if (userChoice == "")
+    }
 //                                               ..... HOP ON HERE .....
 }
 
@@ -156,18 +192,25 @@ void run_config(Program& app) {
 
 
 
+
+
 void run_main(Program& app) {
     char userChoice = 's';
     
 //    ui::intro(); // beta
+//    system_func::systemAlert("", 1); // beta
     
-    
+        
         while (userChoice != 'e' && userChoice != 'E') {
             app.start_menu_layout();
+//            userChoice = getRawKey(); // TODO: menu keys navigation
             cin >> userChoice;
+            
+            
 
             switch (userChoice) {
                 case '1':
+
                     cout << "\n\n" << ui::BG_BLACK << ui::GREEN << ui::BOLD << ui::ITALIC << "[System] Displaying device menu..." << ui::RESET << "\n\n"; // and
                     // app.show_info();
                     break;
@@ -187,6 +230,7 @@ void run_main(Program& app) {
                 case '6':
                 case 'e':
                 case 'E':
+                    system_func::visualAlert();
                     cout << "Exiting swan song... Goodbye.\n";
                     userChoice = 'e';
                     break;
@@ -209,3 +253,41 @@ int main() {
     
     return 0;
 }
+
+
+
+//while (true) {
+//    int k = getRawKey();
+//
+//    if (k == 27 || k == 32539) {
+//        int next1 = getRawKey();
+//        int next2 = getRawKey();
+//        if (next1 == 91 || next1 == 32603 ) {
+//            if (next2 == 65 || next2 == 32577) cout << "[UP ARROW]\n";
+//            if (next2 == 66 || next2 == 32578) cout << "[DOWN ARROW]\n";
+//            if (next2 == 67 || next2 == 32579) cout << "[RIGHT ARROW]\n";
+//            if (next2 == 68 || next2 == 32580) cout << "[LEFT ARROW]\n";
+//        }
+//    }
+//    else if (k == 9 || k == 32521) { // TAB
+//        tabAutocomplite(userInputBuffer);
+//        cout << "\n" << prompt << userInputBuffer << flush;
+//    }
+//
+//    else if (k == 10 || k == 13 || k == 32522) {
+//        cout << "\n";
+//        enterPressed(userInputBuffer);
+//        return userInputBuffer;
+//    }
+//    else if (k == 127 || k == 8 || k == 32639) {
+//        if (!userInputBuffer.empty()) {
+//            userInputBuffer.pop_back();
+//            cout << "\b \b" << flush;
+//        }
+//    }
+//    else if (k >= 32 && k <= 126){
+//        userInputBuffer += (char)k;
+//        cout << (char)k << flush;
+////            cout << k;
+//    }
+//}
