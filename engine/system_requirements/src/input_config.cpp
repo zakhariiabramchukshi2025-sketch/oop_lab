@@ -193,7 +193,7 @@ string read_line(vector<string> menu) {
                 
                 if (next2 == 68 || next2 == 32580) {
 //                    cout << "[LEFT ARROW]\n";
-                    cout << "\033[K" << flush; // clearing the line
+                    cout << "\t\033[K" << flush; // clearing the line
                     optionIndex = (optionIndex - 1) % menu.size();
                     userInputBuffer = menu[optionIndex];
                 }
@@ -206,6 +206,7 @@ string read_line(vector<string> menu) {
             cout << "[TAB]\n";
             optionIndex = (optionIndex - 1) % menu.size();
             cout << menu[optionIndex] << "?" << flush << "\n" << flush;
+            userInputBuffer = menu[optionIndex];
 //            userInputBuffer = arrow_manipulate(menu, 66);
 //            cout << "\n" << prompt << userInputBuffer << flush;
         }
@@ -213,7 +214,7 @@ string read_line(vector<string> menu) {
         else if (k == 10 || k == 13 || k == 32522) {
 //            cout << "\n";
 //            enterPressed(userInputBuffer);
-            cout << "\033[K" << flush; // clearing the line
+            cout << "\t\033[K" << flush; // clearing the line
             return userInputBuffer;
             
         }
