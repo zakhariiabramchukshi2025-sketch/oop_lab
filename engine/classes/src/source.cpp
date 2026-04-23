@@ -83,7 +83,7 @@ MetaData& MetaData::set_error_count(int new_error_count) {
 }
 
 
-obj.set_1().set_2()
+//obj.set_1().set_2()/
     
 
 MetaData& MetaData::set_online_status(bool new_online_status) noexcept {
