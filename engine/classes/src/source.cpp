@@ -83,6 +83,9 @@ MetaData& MetaData::set_error_count(int new_error_count) {
 }
 
 
+obj.set_1().set_2()
+    
+
 MetaData& MetaData::set_online_status(bool new_online_status) noexcept {
     is_online_ = new_online_status;
     return *this;

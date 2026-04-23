@@ -109,7 +109,7 @@ public:
 
 
 
-// --- Interfaces ---
+// --- Interfaces and abstract classes ---
 class IRemote {
 protected:
     bool is_remote_enabled_{true};

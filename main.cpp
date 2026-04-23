@@ -127,7 +127,7 @@ public:
     }
     
     
-    
+        
     void start_menu_layout() {
         int i = 0;
         size_t length = start_menu_.size();
